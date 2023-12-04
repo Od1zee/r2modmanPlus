@@ -365,6 +365,23 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
         }
 
         created() {
+            // Add a new SettingsRow for the game executable path
+            this.settingsList.push(
+                new SettingsRow(
+                    'Locations',
+                    'Change Game Executable Path',
+                    `Change the location of the game executable that ${this.appName} uses.`,
+                    async () => {
+                        const settings = await ManagerSettings.getSingleton(this.activeGame);
+                        if (settings.getContext().gameSpecific.gameExecutablePath !== null) {
+                            return settings.getContext().gameSpecific.gameExecutablePath;
+                        }
+                        return 'Please set manually';
+                    },
+                    'fa-folder-open',
+                    () => this.emitInvoke('ChangeGameExecutablePath')
+                )
+            )
             if ([StorePlatform.STEAM, StorePlatform.STEAM_DIRECT].includes(this.activeGame.activePlatform.storePlatform)) {
                 this.settingsList.push(
                     new SettingsRow(
@@ -400,7 +417,6 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
                 }
             });
         }
-
         changeTab(tab: string) {
             this.activeTab = tab;
         }
