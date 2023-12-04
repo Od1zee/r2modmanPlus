@@ -365,41 +365,23 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
         }
 
         created() {
-            // Add a new SettingsRow for the game executable path
             this.settingsList.push(
                 new SettingsRow(
                     'Locations',
-                    'Change Game Executable Path',
-                    `Change the location of the game executable that ${this.appName} uses.`,
+                    'Change Game directory',
+                    `Change the location of the game directory that ${this.appName} uses.`,
                     async () => {
                         const settings = await ManagerSettings.getSingleton(this.activeGame);
-                        if (settings.getContext().gameSpecific.gameExecutablePath !== null) {
-                            return settings.getContext().gameSpecific.gameExecutablePath;
+                        if (settings.getContext().global.steamDirectory !== null) {
+                            const directory = await GameDirectoryResolverProvider.instance.getSteamDirectory();
+                            if (!(directory instanceof R2Error)) {
+                                return directory;
+                            }
                         }
                         return 'Please set manually';
                     },
                     'fa-folder-open',
-                    () => this.emitInvoke('gameExecutablePath')
-                )
-            )
-            if ([StorePlatform.STEAM, StorePlatform.STEAM_DIRECT].includes(this.activeGame.activePlatform.storePlatform)) {
-                this.settingsList.push(
-                    new SettingsRow(
-                        'Locations',
-                        'Change Steam directory',
-                        `Change the location of the Steam directory that ${this.appName} uses.`,
-                        async () => {
-                            const settings = await ManagerSettings.getSingleton(this.activeGame);
-                            if (settings.getContext().global.steamDirectory !== null) {
-                                const directory = await GameDirectoryResolverProvider.instance.getSteamDirectory();
-                                if (!(directory instanceof R2Error)) {
-                                    return directory;
-                                }
-                            }
-                            return 'Please set manually';
-                        },
-                        'fa-folder-open',
-                        () => this.emitInvoke('ChangeSteamDirectory')
+                        () => this.emitInvoke('gameExecutablePath')
                     )
                 )
             }
