@@ -320,7 +320,7 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
                         } catch (e) {
                             const err = e instanceof Error ? e.message : "Unknown error";
                             await this.$store.dispatch("updateApiConnectionError", err);
-                        } finally {
+                        }; finally {
                             this.downloadingThunderstoreModList = false;
                         }
                     }
