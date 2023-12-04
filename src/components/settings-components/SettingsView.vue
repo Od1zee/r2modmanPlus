@@ -379,7 +379,7 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
                         return 'Please set manually';
                     },
                     'fa-folder-open',
-                    () => this.emitInvoke('ChangeGameExecutablePath')
+                    () => this.emitInvoke('gameExecutablePath')
                 )
             )
             if ([StorePlatform.STEAM, StorePlatform.STEAM_DIRECT].includes(this.activeGame.activePlatform.storePlatform)) {
