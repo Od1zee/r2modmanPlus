@@ -37,17 +37,19 @@ export default class SteamGameRunner_Windows extends GameRunnerProvider {
                 return resolve(steamDir);
             }
 
-            LoggerProvider.instance.Log(LogSeverity.INFO, `Steam directory is: ${steamDir}`);
-            LoggerProvider.instance.Log(LogSeverity.INFO, `Running command: ${steamDir}.exe -applaunch ${game.activePlatform.storeIdentifier} ${args} ${settings.getContext().gameSpecific.launchParameters}`);
+            const gameExecutablePath = 'path_to_your_game_executable';
 
-            exec(`"${steamDir}/Steam.exe" -applaunch ${game.activePlatform.storeIdentifier} ${args} ${settings.getContext().gameSpecific.launchParameters}`, (err => {
-                if (err !== null) {
-                    LoggerProvider.instance.Log(LogSeverity.ACTION_STOPPED, 'Error was thrown whilst starting modded');
-                    LoggerProvider.instance.Log(LogSeverity.ERROR, err.message);
-                    const r2err = new R2Error('Error starting Steam', err.message, 'Ensure that the Steam directory has been set correctly in the settings');
-                    return reject(r2err);
-                }
-                return resolve();
+    LoggerProvider.instance.Log(LogSeverity.INFO, `Game executable path is: ${gameExecutablePath}`);
+    LoggerProvider.instance.Log(LogSeverity.INFO, `Running command: ${gameExecutablePath} ${args} ${settings.getContext().gameSpecific.launchParameters}`);
+
+    exec(`"${gameExecutablePath}" ${args} ${settings.getContext().gameSpecific.launchParameters}`, (err => {
+        if (err !== null) {
+            LoggerProvider.instance.Log(LogSeverity.ACTION_STOPPED, 'Error was thrown whilst starting modded');
+            LoggerProvider.instance.Log(LogSeverity.ERROR, err.message);
+            const r2err = new R2Error('Error starting game', err.message, 'Ensure that the game executable path has been set correctly');
+            return reject(r2err);
+                     }
+                }));
             }));
         });
     }
