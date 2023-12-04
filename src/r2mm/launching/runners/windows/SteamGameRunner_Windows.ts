@@ -48,8 +48,7 @@ export default class SteamGameRunner_Windows extends GameRunnerProvider {
             LoggerProvider.instance.Log(LogSeverity.ERROR, err.message);
             const r2err = new R2Error('Error starting game', err.message, 'Ensure that the game executable path has been set correctly');
             return reject(r2err);
-                     }
-                }));
+                }
             }));
         });
     }
