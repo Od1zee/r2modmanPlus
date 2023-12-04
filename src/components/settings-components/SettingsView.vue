@@ -362,8 +362,7 @@ import UtilityMixin from '../mixins/UtilityMixin.vue';
 
         beforeCreate() {
             this.activeGame = GameManager.activeGame;
-        }
-    
+        };
         created() {
             if ([StorePlatform.STEAM, StorePlatform.STEAM_DIRECT].includes(this.activeGame.activePlatform.storePlatform)) {
                 this.settingsList.push(
