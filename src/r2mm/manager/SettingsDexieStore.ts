@@ -231,6 +231,7 @@ export interface ManagerSettingsInterfaceGame_V2 {
     installedSortBy: string;
     installedSortDirection: string;
     installedDisablePosition: string;
+    gameExecutablePath?: string;
 }
 
 /**
